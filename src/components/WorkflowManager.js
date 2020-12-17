@@ -10,7 +10,7 @@ export const WorkflowManager = () => (
         <Route render={(props) => {
             if (localStorage.getItem("workflow_user_id")) {
                 return <>
-                    <NavBar {...props}/>
+                   
                     <ApplicationViews />
                 </>
             } else {
