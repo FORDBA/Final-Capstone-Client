@@ -7,7 +7,7 @@ export const WorkflowProvider = (props) => {
   const getWorkflows = () => {
     return fetch(`http://localhost:8000/workflows`, {
       headers: {
-        Authorization: `Token ${localStorage.getItem("rare_user_token")}`,
+        Authorization: `Token ${localStorage.getItem("workflow_user_token")}`,
         "Content-Type": "application/json",
       },
     })
@@ -18,7 +18,7 @@ export const WorkflowProvider = (props) => {
   const getWorkflowById = (workflowId) => {
     return fetch(`http://localhost:8000/workflows/${workflowId}`, {
       headers: {
-        Authorization: `Token ${localStorage.getItem("rare_user_token")}`,
+        Authorization: `Token ${localStorage.getItem("workflow_user_token")}`,
         "Content-Type": "application/json",
       }
     })
@@ -30,7 +30,7 @@ export const WorkflowProvider = (props) => {
   const getWorkflowsByUserId = (userId) => {
     return fetch(`http://localhost:8000/workflows?preparer_id=${userId}&reviewer_id=${userId}&processor_id=${userId}`, {
       headers: {
-        Authorization: `Token ${localStorage.getItem("rare_user_token")}`,
+        Authorization: `Token ${localStorage.getItem("workflow_user_token")}`,
         "Content-Type": "application/json",
       }
     }
@@ -43,7 +43,7 @@ export const WorkflowProvider = (props) => {
     return fetch(`http://localhost:8000/workflows/${workflowId}`, {
       method: "PATCH",
       headers: {
-        Authorization: `Token ${localStorage.getItem("rare_user_token")}`,
+        Authorization: `Token ${localStorage.getItem("workflow_user_token")}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(workflowUpdate),

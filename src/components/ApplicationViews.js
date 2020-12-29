@@ -13,7 +13,10 @@ export const ApplicationViews = () => {
         }}>
 
         <WorkflowProvider>
-            <Route exact path="/" render={props => <UserWorkflowList {...props} />} />
+            <Route exact path="/">
+             <UserWorkflowList userId={parseInt(localStorage.getItem("workflow_user_id"))}/>
+
+            </Route>
         </WorkflowProvider>
 
         </main>

@@ -1,8 +1,8 @@
 import React, { useEffect, useContext, useState } from "react"
 import { Link } from "react-router-dom"
 import ListGroup from "react-bootstrap/ListGroup"
-import { WorkflowContext } from "./WorkflowProvider"
-import { UserWorkflowListItem } from "./UserWorkflowListItem"
+import { WorkflowContext } from "./WorkflowProvider.js"
+import { UserWorkflowListItem } from "./UserWorkflowListItem.js"
 
 export const UserWorkflowList = props => {
   const { userId } = props
@@ -12,13 +12,14 @@ export const UserWorkflowList = props => {
   // state variable keeping track of if call to API has resolved yet
   const [ isLoaded, setIsLoaded ] = useState(false)
 
-  const isCurrentUser = userId === parseInt(localStorage.getItem('rare_user_id'))
-
+  const isCurrentUser = userId === parseInt(localStorage.getItem('workflow_user_id'))
   workflows.sort((a,b) => b.id - a.id)
 
   useEffect(() => {
-    getWorkflowsByUserId(userId) 
-      .then(() => setIsLoaded(true))
+      debugger
+    getWorkflowsByUserId(userId)
+    .then(() => setIsLoaded(true))
+    
   }, [])
 
   /**
