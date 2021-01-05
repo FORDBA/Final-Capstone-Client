@@ -1,7 +1,13 @@
 import React from "react"
-import { Route } from "react-router-dom"
+import { Route, Redirect } from "react-router-dom"
 import { WorkflowProvider } from "./workflows/WorkflowProvider.js"
 import { UserWorkflowList } from "./workflows/UserWorkflowList"
+import { WorkflowList } from "./workflows/AllWorkflowList"
+import { StateProvider } from "./states/StateProvider"
+import { CompanyProvider } from "./companies/CompanyProvider"
+import { UserProvider } from "./users/UserProvider"
+import { StatusProvider } from "./statuses/StatusProvider"
+import { WorkflowForm } from "./workflows/WorkflowForm"
 
 
 
@@ -11,12 +17,40 @@ export const ApplicationViews = () => {
             margin: "5rem 2rem",
             lineHeight: "1.75rem"
         }}>
+        <Route
+        path="/logout"
+        render={() => {
+          // Removes the user Id and Token from local storage and redirects the user back to log in
+          localStorage.removeItem("workflow_user_id");
+          localStorage.removeItem("workflow_user_token");
+          localStorage.removeItem("is_admin");
+          return <Redirect to="/login" />;
+        }}
+      />
+
 
         <WorkflowProvider>
             <Route exact path="/">
              <UserWorkflowList userId={parseInt(localStorage.getItem("workflow_user_id"))}/>
 
             </Route>
+        </WorkflowProvider>
+        <WorkflowProvider>
+            <StateProvider>
+                <CompanyProvider>
+                    <UserProvider>
+                        <StatusProvider>
+
+                            <Route path="/workflows">
+                            <WorkflowList />
+                            </Route>
+                            <Route path="/workflows/create" exact component={WorkflowForm}>
+                                <WorkflowForm />
+                            </Route>
+                        </StatusProvider>
+                    </UserProvider>
+                </CompanyProvider>
+            </StateProvider>            
         </WorkflowProvider>
 
         </main>

@@ -15,6 +15,22 @@ export const WorkflowProvider = (props) => {
       .then(setWorkflows);
   };
 
+  const createWorkflow = (workflow) => {
+    return fetch(`http://localhost:8000/workflows`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Token ${localStorage.getItem("workflow_user_token")}`
+      },
+      body: JSON.stringify(workflow),
+    })
+      .then((res) => res.json())
+      .then((newWorkflow) => {
+        getWorkflows();
+        return newWorkflow;
+      });
+  };
+
   const getWorkflowById = (workflowId) => {
     return fetch(`http://localhost:8000/workflows/${workflowId}`, {
       headers: {
@@ -57,7 +73,8 @@ export const WorkflowProvider = (props) => {
         workflows,
         updateWorkflow,
         getWorkflowById,
-        getWorkflowsByUserId
+        getWorkflowsByUserId,
+        createWorkflow
       }}
     >
       {props.children}
