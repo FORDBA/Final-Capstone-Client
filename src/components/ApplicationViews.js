@@ -41,12 +41,26 @@ export const ApplicationViews = () => {
                     <UserProvider>
                         <StatusProvider>
 
-                            <Route path="/workflows">
+                            <Route  exact path="/workflows">
                             <WorkflowList />
                             </Route>
-                            <Route path="/workflows/create" exact component={WorkflowForm}>
-                                <WorkflowForm />
-                            </Route>
+                            
+                        </StatusProvider>
+                    </UserProvider>
+                </CompanyProvider>
+            </StateProvider>            
+        </WorkflowProvider>
+
+        <WorkflowProvider>
+            <StateProvider>
+                <CompanyProvider>
+                    <UserProvider>
+                        <StatusProvider>
+
+                           
+                            <Route path="/workflows/create" component={WorkflowForm} />
+                                
+                            <Route path="/workflows/edit/:workflowId" component={WorkflowForm} />
                         </StatusProvider>
                     </UserProvider>
                 </CompanyProvider>

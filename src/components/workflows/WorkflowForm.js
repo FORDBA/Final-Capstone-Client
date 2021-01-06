@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react"
 import Form from 'react-bootstrap/Form'
-import DatePicker from 'react-date-picker'
 import FormGroup from 'react-bootstrap/FormGroup'
 import Button from 'react-bootstrap/Button'
 import { CompanyContext } from "../companies/CompanyProvider"
@@ -18,6 +17,14 @@ export const WorkflowForm = (props) => {
     const {companies, getCompanies} = useContext(CompanyContext)
     const {users, getUsers} = useContext(UserContext)
     const {statuses, getStatuses} = useContext(StatusContext)
+    const [ date, setDate ] = useState({})
+
+    const handleDateChange = (d) => {
+       
+        const newDate = Object.assign({}, date)          
+        newDate[d.target && d.target.name] = dueDateRef.target && dueDateRef.target.value    
+        setDate(newDate)                                 
+    }
 
 
     
@@ -85,13 +92,14 @@ export const WorkflowForm = (props) => {
         } else {
           // validation success - create a new object from the form inputs and then either save or update it
           const newWorkflowObject = {
-            state_id: stateRef.current.value,
-            company_id: companyRef.current.value,   
-            preparer_id: preparerRef.current.value,
-            reviewer_id: reviewerRef.current.value,
-            processor_id: processorRef.current.value,
+            state: stateRef.current.value,
+            company: companyRef.current.value,   
+            preparer: preparerRef.current.value,
+            reviewer: reviewerRef.current.value,
+            processor: processorRef.current.value,
             due_date: dueDateRef.current.value,
-            status_id: statusRef.current.value,
+            status: statusRef.current.value,
+            completion_date: null
             
             
           }
@@ -102,7 +110,7 @@ export const WorkflowForm = (props) => {
           }
           else {
             createWorkflow(newWorkflowObject)
-              .then((newWorkflow) => props.history.push(`/workflows/${newWorkflow.id}`))
+              .then(() => props.history.push(`/workflows`))
           }
         }
     }
@@ -181,7 +189,12 @@ export const WorkflowForm = (props) => {
             </FormGroup>
             <FormGroup controlId="processorSelect">
             <Form.Label>Due Date</Form.Label>
-                <DatePicker id="dueDate-datepicker" ref={dueDateRef} />
+            <input ref={dueDateRef} type="date"
+                        name="eventDate"
+                        className="form-control"
+                        required 
+                        onChange={handleDateChange}
+                        />
             </FormGroup>
             
             <Row className="justify-content-end">
