@@ -1,0 +1,12 @@
+/* these are borrowed from PostListItem */
+.postDetail p {
+    margin-bottom: 0;
+}
+
+.postDetail__category {
+  font-size: 1.5rem;
+}
+
+.postDetail__button {
+  background: transparent
+}

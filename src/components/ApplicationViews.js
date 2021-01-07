@@ -8,6 +8,12 @@ import { CompanyProvider } from "./companies/CompanyProvider"
 import { UserProvider } from "./users/UserProvider"
 import { StatusProvider } from "./statuses/StatusProvider"
 import { WorkflowForm } from "./workflows/WorkflowForm"
+import { WorkflowDetail } from "./workflows/WorkflowDetail"
+import { WorkflowStatusForm } from "./workflows/WorkflowStatusForm"
+import { UserList } from "./users/UserList"
+import { CompletedWorkflowList } from "./workflows/AllCompletedList"
+import { CompanyList } from "./companies/CompanyList"
+import { NoteProvider } from "./notes/NoteProvider"
 
 
 
@@ -32,40 +38,58 @@ export const ApplicationViews = () => {
         <WorkflowProvider>
             <Route exact path="/">
              <UserWorkflowList userId={parseInt(localStorage.getItem("workflow_user_id"))}/>
-
-            </Route>
+             </Route>
+             <Route
+                    exact
+                    path="/workflows/user/:userId"
+                    render={(props) => (
+                      <UserWorkflowList
+                        userId={parseInt(props.match.params.userId)}
+                      />
+                    )}
+                  />
         </WorkflowProvider>
         <WorkflowProvider>
             <StateProvider>
                 <CompanyProvider>
                     <UserProvider>
                         <StatusProvider>
+                            <NoteProvider>
 
                             <Route  exact path="/workflows">
                             <WorkflowList />
                             </Route>
-                            
-                        </StatusProvider>
-                    </UserProvider>
-                </CompanyProvider>
-            </StateProvider>            
-        </WorkflowProvider>
-
-        <WorkflowProvider>
-            <StateProvider>
-                <CompanyProvider>
-                    <UserProvider>
-                        <StatusProvider>
-
-                           
+                            <Route  exact path="/workflows/completed">
+                            <CompletedWorkflowList />
+                            </Route>
                             <Route path="/workflows/create" component={WorkflowForm} />
                                 
                             <Route path="/workflows/edit/:workflowId" component={WorkflowForm} />
+                            <Route path="/workflows/statusupdate/:workflowId" component={WorkflowStatusForm} />
+                            <Route exact path="/workflows/:workflowId(\d+)" render={(props) => <WorkflowDetail {...props} />} />
+                            <Route
+                                exact
+                                path="/workflows/companies/:companyId(\d+)"
+                                render={(props) => 
+                                <WorkflowList companyId={parseInt(props.match.params.companyId)}/> }
+                            />
+                            </NoteProvider>
                         </StatusProvider>
                     </UserProvider>
                 </CompanyProvider>
             </StateProvider>            
         </WorkflowProvider>
+        <UserProvider>
+            <Route  exact path="/users">
+                <UserList />
+            </Route>
+        </UserProvider>
+        <CompanyProvider>
+            <Route exact path="/companies">
+            <CompanyList />
+            </Route>
+        </CompanyProvider>
+        
 
         </main>
     </>
