@@ -25,9 +25,9 @@ export const WorkflowProvider = (props) => {
       body: JSON.stringify(workflow),
     })
       .then((res) => res.json())
-      .then((newWorkflow) => {
+      .then(() => {
         getWorkflows();
-        return newWorkflow;
+        
       });
   };
 
@@ -55,7 +55,30 @@ export const WorkflowProvider = (props) => {
       .then(setWorkflows);
   };
 
+  const getWorkflowsByCompanyId = (companyId) => {
+    return fetch(`http://localhost:8000/workflows?company_id=${companyId}`, {
+      headers: {
+        Authorization: `Token ${localStorage.getItem("workflow_user_token")}`,
+        "Content-Type": "application/json",
+      }
+    }
+    )
+      .then((res) => res.json())
+      .then(setWorkflows);
+  };
+
   const updateWorkflow = (workflowId, workflowUpdate) => {
+    return fetch(`http://localhost:8000/workflows/${workflowId}`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Token ${localStorage.getItem("workflow_user_token")}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(workflowUpdate),
+    }).then(getWorkflows);
+  };
+  
+  const updateWorkflowStatus = (workflowId, workflowUpdate) => {
     return fetch(`http://localhost:8000/workflows/${workflowId}`, {
       method: "PATCH",
       headers: {
@@ -66,6 +89,17 @@ export const WorkflowProvider = (props) => {
     }).then(getWorkflows);
   };
 
+  const deleteWorkflow = (id) => {
+    return fetch(`http://localhost:8000/workflows/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Token ${localStorage.getItem("workflow_user_token")}`
+      },
+
+    });
+  };
+
   return (
     <WorkflowContext.Provider
       value={{
@@ -74,7 +108,10 @@ export const WorkflowProvider = (props) => {
         updateWorkflow,
         getWorkflowById,
         getWorkflowsByUserId,
-        createWorkflow
+        createWorkflow,
+        deleteWorkflow,
+        updateWorkflowStatus,
+        getWorkflowsByCompanyId
       }}
     >
       {props.children}

@@ -1,5 +1,6 @@
 import React, { useEffect, useContext, useState } from "react"
 import { Table } from "react-bootstrap"
+import { Link } from "react-router-dom"
 import { WorkflowContext } from "./WorkflowProvider.js"
 
 
@@ -30,20 +31,22 @@ export const UserWorkflowList = props => {
     if(isCurrentUser) {
       return "My Tax Returns"
     }
+    // else if(!isCurrentUser && workflows.length) {
+    //   return `${workflows[0].user.first_name} ${workflows[0].user.last_name}'s Tax Returns`
+    // }
 
-    // Not the user's own workflows and the API call has returned with workflows - 
-    // grab the username from the first workflow
-  
-
-    // The API call returned with no workflows, tell the user there are no workflows for this user
+    // The API call returned with no posts, tell the user there are no posts for this user
     else if(!workflows.length && isLoaded) {
-      return "There are no tax returns this user :/"
+      return "There are no posts for this user :/"
     }
   }
- 
+    
+   
+   
+   
   return (
     <div className="workflowList">
-      
+     <h1 className="text-center my-4">{getHeader()}</h1>
 
       <Table bordered hover responsive="md">
         <thead>
@@ -66,6 +69,7 @@ export const UserWorkflowList = props => {
 
             
            { workflows.map(workflow => {
+             if (workflow.status.id != 7) {
               const { id, due_date, completion_date, preparer, reviewer, processor, status, state, company } = workflow
               const readableDueDate = (new Date(due_date + 'T00:00:00')).toLocaleDateString('en-US')
               const readableCompletionDate = () => {
@@ -82,7 +86,7 @@ export const UserWorkflowList = props => {
               return (
                 <tr key={id} className="position-relative">
                  
-                  <td>{state.name}</td>
+                  <td><Link to={`/workflows/${id}`}>{state.name}</Link></td>
                   <td>{company.name}</td>
                   <td>{preparer.first_name} {preparer.last_name}</td>
                   <td>{reviewer.first_name} {reviewer.last_name}</td>
@@ -96,6 +100,7 @@ export const UserWorkflowList = props => {
                 </tr>
                 
               )
+             }
             })
           }
         </tbody>

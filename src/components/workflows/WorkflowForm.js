@@ -99,7 +99,7 @@ export const WorkflowForm = (props) => {
             processor: processorRef.current.value,
             due_date: dueDateRef.current.value,
             status: statusRef.current.value,
-            completion_date: null
+            
             
             
           }

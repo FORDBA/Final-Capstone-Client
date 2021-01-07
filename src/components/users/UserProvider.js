@@ -15,10 +15,34 @@ export const UserProvider = (props) => {
       .then(setUsers);
   }
 
+  const updateUserRole = (userId, isStaffUpdate) => {
+    return fetch(`http://localhost:8000/users/${userId}/update_role`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Token ${localStorage.getItem("workflow_user_token")}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(isStaffUpdate),
+    }).then(getUsers);
+  };
+
+  const updateActive = (userId, userUpdate) => {
+    return fetch(`http://localhost:8000/users/${userId}/update_active`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Token ${localStorage.getItem("workflow_user_token")}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userUpdate),
+    }).then(getUsers);
+  };
+
   return (
     <UserContext.Provider
       value={{
         getUsers,
+        updateUserRole,
+        updateActive,
         users
         
       }}

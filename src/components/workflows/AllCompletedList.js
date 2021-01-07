@@ -6,18 +6,14 @@ import { WorkflowContext } from "./WorkflowProvider"
 
 
 
-export const WorkflowList = props => {
-    const { workflows, getWorkflows, getWorkflowsByCompanyId } = useContext(WorkflowContext)
+export const CompletedWorkflowList = props => {
+    const { workflows, getWorkflows } = useContext(WorkflowContext)
 
-    const { companyId } = props
+    
 
     // Initialization effect hook -> Go get workflow data
     useEffect(() => {
-      if(companyId) {
-        getWorkflowsByCompanyId(companyId)
-      } else {
         getWorkflows()
-      }
         
       }, []);
 
@@ -64,7 +60,7 @@ export const WorkflowList = props => {
 
                 
                { workflows.map(workflow => {
-                 if (workflow.status.id != 7) {
+                 if (workflow.status.id === 7) {
                   const { id, due_date, completion_date, preparer, reviewer, processor, status, state, company } = workflow
                   const readableDueDate = (new Date(due_date + 'T00:00:00')).toLocaleDateString('en-US')
                   const readableCompletionDate = () => {
