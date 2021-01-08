@@ -166,7 +166,7 @@ export const WorkflowForm = (props) => {
                 </Form.Control>
             </FormGroup>
             <FormGroup controlId="processorSelect">
-            <Form.Label>Reviewer</Form.Label>
+            <Form.Label>Processor</Form.Label>
                 <Form.Control as="select" ref={processorRef}>
                 <option value ="0">Select a processor</option>
                 {users.map(u => (
